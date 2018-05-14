@@ -1,0 +1,3 @@
+{
+  "c": "@import!./test/secrets.json#o.a.c"
+}

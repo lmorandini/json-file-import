@@ -1,0 +1,21 @@
+{
+  "n": 1,
+  "b": true,
+  "s": "abc",
+  "s2": "@import!./test/secrets.json#os-password",
+  "s3": "@import!./test/secrets.json",
+  "a": [
+    1,
+    2,
+    "@import!./test/secrets.json#os-password",
+    4
+  ],
+  "o": {
+    "n1": 1,
+    "n2": 2,
+    "n3": "@import!./test/secrets.json",
+    "n4": {
+      "os-username": "@import!./test/secrets.json#os-username"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "json-file-import",
+  "version": "0.1.0",
+  "description": "A simple way to import JSON files (or fragment of them) into a JSON, much like the @import directive in CSS",
+  "author": {
+    "name": "Luca Morandini",
+    "email": "luca.morandini@unimelb.edu.au"
+  },
+  "engines": {
+    "node": ">= 8.7.x",
+    "npm": ">= 6.0.x"
+  },
+  "dependencies": {
+    "underscore": "~1.9.x"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.1.1"
+  },
+  "scripts": {
+    "test": "mocha --no-colors"
+  }
+}
