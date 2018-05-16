@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
-const jsonFileImport = require('../json-file-import.js');
+const jsonFileImport = require('../index.js');
 
 it('JSON with import directives', function (done) {
-  expect(jsonFileImport.load('./test/test-noimport.json')).eql({
+  expect(jsonFileImport.load(`${__dirname}/test-noimport.json`)).eql({
       n: 1,
       b: true,
       s: "abc",
@@ -24,7 +24,8 @@ it('JSON with import directives', function (done) {
 });
 
 it('JSON with no import directives', function (done) {
-  expect(jsonFileImport.load('./test/test-import.json')).eql({
+
+  expect(jsonFileImport.load(`${__dirname}/test-import.json`)).eql({
     n: 1,
     b: true,
     s: "abc",
@@ -69,7 +70,7 @@ it('JSON with no import directives', function (done) {
 });
 
 it('JSON with nested import directives', function (done) {
-  expect(jsonFileImport.load('./test/test-nested.json')).eql({
+  expect(jsonFileImport.load(`${__dirname}/test-nested.json`)).eql({
       c: 3
     }
   );

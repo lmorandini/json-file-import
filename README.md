@@ -15,7 +15,7 @@ Load the package on your node.js  program with: `const jsonFileImport = require(
 Now you are ready to use it.
 
 There is only one function in the package (`load`), which has one argument (the filename):
-`const config= jsonFileImport.load('./test/test-import.json'));`
+```const config= jsonFileImport.load(`${__dirname}/config.json`);```
 
 The loaded file can be a plain-vanilla one (without the `@import` token), or with this token, allowing the inclusion of other JSON files into the main one.
 See the JSON files under the `test` directory for examples.
