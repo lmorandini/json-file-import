@@ -10,12 +10,12 @@ A simple way to import JSON files (or fragment of them) into a JSON, much like t
 
 ## Usage
 
-Load the package on your node.js  program with: `const jsonFileInclude = require('../json-file-import.js');`
+Load the package on your node.js  program with: `const jsonFileImport = require('json-file-import');`
 
 Now you are ready to use it.
 
 There is only one function in the package (`load`), which has one argument (the filename):
-`const config= jsonFileInclude.load('./test/test-import.json'));`
+`const config= jsonFileImport.load('./test/test-import.json'));`
 
 The loaded file can be a plain-vanilla one (without the `@import` token), or with this token, allowing the inclusion of other JSON files into the main one.
 See the JSON files under the `test` directory for examples.
