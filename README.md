@@ -5,7 +5,7 @@ A simple way to import JSON files (or fragment of them) into a JSON, much like t
 ## Installation
 
 * Add the module to the dependencies listed in `package.json` (change the version as appropriate). 
-` "json-file-import": "git+https://github.com/lmoran/json-file-import.git#vX.Y.Z"`
+` "json-file-import": "github:lmoran/json-file-import.git#vX.Y.Z"`
 * Install the dependencies as usual with `npm install`.
 
 ## Usage
