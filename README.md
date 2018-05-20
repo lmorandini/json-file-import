@@ -25,14 +25,15 @@ To import a JSON into the another one, you have to prefix the file name with a `
 {
   "n1": 1,
   "n2": 2,
-  "n3": "@import!./test/secrets.json",
+  "n3": "@import!secrets.json",
 }
 ```
+(The base directory is the one the main JSON file is in.)
 
 If you want to insert only a property of the imported JSON, postfix a `#` token followed by a property name to the file name, as in:
 ```
 {
-  "os-username": "@import!./test/secrets.json#os-username"
+  "os-username": "@import!secrets.json#os-username"
 }
 
 ```
@@ -40,7 +41,7 @@ If you want to insert only a property of the imported JSON, postfix a `#` token 
 Properties can be specified using the dot-notation, as in:
 ```
 {
-  "c": "@import!./test/secrets.json#object.subobject.property"
+  "c": "@import!secrets.json#object.subobject.property"
 }
 ```
 

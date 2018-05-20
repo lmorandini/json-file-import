@@ -5,6 +5,7 @@
 "use strict";
 
 const _ = require('underscore');
+const path = require('path');
 
 /**
  * Cache of JSON files
@@ -13,11 +14,17 @@ const jsonCache = new class {
 
   constructor() {
     this.cache = new Map();
+    this.baseDir= ".";
+  }
+
+  setDir(baseDirIn) {
+    this.baseDir= baseDirIn;
   }
 
   get(jsonFile) {
     if (!this.cache.has(jsonFile)) {
-      this.cache.set(jsonFile, require(jsonFile));
+      console.log(`${path.join(this.baseDir, jsonFile)} ${jsonFile}`); // XXX
+      this.cache.set(jsonFile, require(path.join(this.baseDir, jsonFile)));
     }
     return this.cache.get(jsonFile);
   }
@@ -34,6 +41,7 @@ const importElemRE = /@import!(.+)#(.+)/;
  */
 module.exports.load = (jsonFile) => {
 
+  jsonCache.setDir(path.dirname(jsonFile));
   const jsonMain = require(jsonFile);
   return _.mapObject(jsonMain, (v, k) => {
     return loadCollection(v, k);

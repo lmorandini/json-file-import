@@ -1,3 +1,3 @@
 {
-  "c": "@import!./test/secrets.json#o.a.c"
+  "c": "@import!secrets.json#o.a.c"
 }
