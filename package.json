@@ -11,6 +11,7 @@
     "npm": ">= 6.0.x"
   },
   "dependencies": {
+    "argparse": "^1.0.10",
     "underscore": "~1.9.x"
   },
   "devDependencies": {

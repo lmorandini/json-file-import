@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const jsonFileImport = require('../index.js');
+const {exec} = require('child_process');
 
 it('JSON with import directives', function (done) {
   expect(jsonFileImport.load(`${__dirname}/test-noimport.json`)).eql({
@@ -77,5 +78,45 @@ it('JSON with nested import directives', function (done) {
   done();
 });
 
+it('JSON with no-match nested import directives', function (done) {
+  try {
+    jsonFileImport.load(`${__dirname}/test-nomatch.json`);
+  } catch (e) {
+    expect(e.message).includes('Element \'@import!secrets.json#xxx\' not matched');
+  }
+  done();
+});
 
+it('JSON with no-match import file', function (done) {
+  try {
+    jsonFileImport.load(`${__dirname}/test-nofilematch.json`);
+  } catch (e) {
+    expect((e.message || e).includes('Import file not found')).to.be.true;
+  }
+  done();
+});
+
+it('CLI JSON successful file import', function (done) {
+  exec(`./bin/jsonimport test/test-nested.json`, (err, stdout, stderr) => {
+    expect(JSON.parse(stdout)).eql({
+        c: 3
+      }
+    );
+    done();
+  });
+});
+
+it('CLI JSON un-successful file import (no file match)', function (done) {
+  exec(`./bin/jsonimport test/test-nofilematch.json`, (err, stdout, stderr) => {
+    expect(stderr.includes('Import file not found: xxx.json')).to.be.true;
+    done();
+  });
+});
+
+it('CLI JSON un-successful file import (no key match)', function (done) {
+  exec(`./bin/jsonimport test/test-nomatch.json`, (err, stdout, stderr) => {
+    expect(stderr.includes('Element \'@import!secrets.json#xxx\' not matched')).to.be.true;
+    done();
+  });
+});
 

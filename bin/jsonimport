@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+/**
+ * Json-file-import CLI program
+ */
+
+const jsonFileImport = require('../index.js');
+const path = require('path');
+const ArgumentParser = require('argparse').ArgumentParser;
+const cli = new ArgumentParser({
+  prog: "jsonimport",
+  version: require('../package.json').version,
+  addHelp: true
+});
+
+cli.addArgument(['input'], {
+  help: 'JSON file or directory containing JSON files'
+});
+
+try {
+  const options = cli.parseArgs();
+  const result = `${JSON.stringify(jsonFileImport.load(path.normalize(path.join(process.cwd(), options.input))), null, 2)}`;
+  process.stdout.write(result + '\n');
+} catch (e) {
+  process.stderr.write(e.message + "\n");
+  process.exit(1);
+}
+

@@ -14,17 +14,20 @@ const jsonCache = new class {
 
   constructor() {
     this.cache = new Map();
-    this.baseDir= ".";
+    this.baseDir = ".";
   }
 
   setDir(baseDirIn) {
-    this.baseDir= baseDirIn;
+    this.baseDir = baseDirIn;
   }
 
   get(jsonFile) {
     if (!this.cache.has(jsonFile)) {
-      console.log(`${path.join(this.baseDir, jsonFile)} ${jsonFile}`); // XXX
-      this.cache.set(jsonFile, require(path.join(this.baseDir, jsonFile)));
+      try {
+        this.cache.set(jsonFile, require(path.join(this.baseDir, jsonFile)));
+      } catch (e) {
+        throw new Error(`Import file not found: ${jsonFile}`);
+      }
     }
     return this.cache.get(jsonFile);
   }
@@ -42,7 +45,12 @@ const importElemRE = /@import!(.+)#(.+)/;
 module.exports.load = (jsonFile) => {
 
   jsonCache.setDir(path.dirname(jsonFile));
-  const jsonMain = require(jsonFile);
+  let jsonMain;
+  try {
+    jsonMain = require(jsonFile);
+  } catch (e) {
+    throw new Error(`Import file not found: ${jsonFile}`);
+  }
   return _.mapObject(jsonMain, (v, k) => {
     return loadCollection(v, k);
   });
@@ -73,13 +81,14 @@ const loadCollection = (v, k) => {
     }
 
     if (importElemRE.test(v)) {
-      var j = jsonCache.get(v.match(importElemRE)[1]);
-      var s = v.match(importElemRE)[2];
-      return v.match(importElemRE)[2]
-        .split('.').reduce((o, i) => o[i], jsonCache.get(v.match(importElemRE)[1]))
+      var token= (v.match(importElemRE)[2]).split('.').reduce((o, i) => o[i], jsonCache.get(v.match(importElemRE)[1]))
+      if (_.isUndefined(token)) {
+        throw new Error(`Element \'${v}\' not matched.`);
+      }
+      return token;
+    } else {
+      return v;
     }
-
-    return v;
   }
 
   if (_.isArray(v)) {
