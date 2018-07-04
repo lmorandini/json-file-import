@@ -56,6 +56,6 @@ Properties can be specified using the dot-notation, as in:
 
 ## Test
 
-```npm run```
+```npm test```
 
 

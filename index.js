@@ -24,9 +24,9 @@ const jsonCache = new class {
   get(jsonFile) {
     if (!this.cache.has(jsonFile)) {
       try {
-        this.cache.set(jsonFile, require(path.join(this.baseDir, jsonFile)));
+        this.cache.set(jsonFile, require(path.resolve(jsonFile)));
       } catch (e) {
-        throw new Error(`Import file not found: ${jsonFile}`);
+        throw new Error(`Error during importing file ${jsonFile}: ${e}`);
       }
     }
     return this.cache.get(jsonFile);
@@ -47,9 +47,9 @@ module.exports.load = (jsonFile) => {
   jsonCache.setDir(path.dirname(jsonFile));
   let jsonMain;
   try {
-    jsonMain = require(jsonFile);
+    jsonMain = require(path.resolve(jsonFile));
   } catch (e) {
-    throw new Error(`Import file not found: ${jsonFile}`);
+    throw new Error(`Error during importing file ${jsonFile}: ${e}`);
   }
   return _.mapObject(jsonMain, (v, k) => {
     return loadCollection(v, k);
@@ -79,9 +79,9 @@ const loadCollection = (v, k) => {
     if (importFileRE.test(v) && !importElemRE.test(v)) {
       return jsonCache.get(v.match(importFileRE)[1]);
     }
-
+    
     if (importElemRE.test(v)) {
-      var token= (v.match(importElemRE)[2]).split('.').reduce((o, i) => o[i], jsonCache.get(v.match(importElemRE)[1]))
+      const token= (v.match(importElemRE)[2]).split('.').reduce((o, i) => o[i], jsonCache.get(v.match(importElemRE)[1]))
       if (_.isUndefined(token)) {
         throw new Error(`Element \'${v}\' not matched.`);
       }

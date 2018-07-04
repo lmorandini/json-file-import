@@ -1,6 +1,6 @@
 {
   "name": "json-file-import",
-  "version": "0.2.0-SNAPSHOT",
+  "version": "0.2.0",
   "description": "A simple way to import JSON files (or fragment of them) into a JSON, much like the @import directive in CSS",
   "author": {
     "name": "Luca Morandini",
