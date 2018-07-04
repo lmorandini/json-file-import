@@ -1,9 +1,10 @@
 const expect = require('chai').expect;
 const jsonFileImport = require('../index.js');
 const {exec} = require('child_process');
+const path = require("path");
 
 it('JSON with no import directives', function (done) {
-  expect(jsonFileImport.load(`./test/test-noimport.json`)).eql({
+  expect(jsonFileImport.load(path.join(__dirname, 'test-noimport.json'))).eql({
       n: 1,
       b: true,
       s: "abc",
@@ -26,7 +27,7 @@ it('JSON with no import directives', function (done) {
 
 it('JSON with import directives', function (done) {
 
-  expect(jsonFileImport.load(`./test/test-import.json`)).eql({
+  expect(jsonFileImport.load(path.join(__dirname, 'test-import.json'))).eql({
     n: 1,
     b: true,
     s: "abc",
@@ -71,7 +72,7 @@ it('JSON with import directives', function (done) {
 });
 
 it('JSON with nested import directives', function (done) {
-  expect(jsonFileImport.load(`./test/test-nested.json`)).eql({
+  expect(jsonFileImport.load(path.join(__dirname, 'test-nested.json'))).eql({
       c: 3
     }
   );
@@ -80,16 +81,16 @@ it('JSON with nested import directives', function (done) {
 
 it('JSON with no-match nested import directives', function (done) {
   try {
-    jsonFileImport.load(`./test/test-nomatch.json`);
+    jsonFileImport.load(path.join(__dirname, 'test-nomatch.json'));
   } catch (e) {
-    expect(e.message).includes('Element \'@import!./test/secrets.json#xxx\' not matched');
+    expect(e.message).includes('Element \'@import!secrets.json#xxx\' not matched');
   }
   done();
 });
 
 it('JSON with no-match import file', function (done) {
   try {
-    jsonFileImport.load(`./test/test-nofilematch.json`);
+    jsonFileImport.load(path.join(__dirname, 'test-nofilematch.json'));
   } catch (e) {
     expect((e.message || e).includes('Import file not found'));
   }
